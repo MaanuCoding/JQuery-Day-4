@@ -1,0 +1,63 @@
+<html>
+	<head>
+	 <title>AJAX Flickr Photo Feeder</title>
+	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript">
+	 
+	 $(document).ready(function(){ 
+
+	                  $("#clearButton").click(function() {
+					$("#animals").empty();
+				}) 
+
+				     $("button").click(function(){
+				       var animalNames = $(this).text();
+				       console.log(animalNames);
+
+				       var flickrURL = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
+
+				         $.ajax({
+				  url: flickrURL,
+				  dataType: "jsonp",
+				  data: {
+				    format : "json",
+				    tags   : animalNames
+				  },
+				  success: function(flickData){
+				  	var items = flickData.items
+				    console.log(items);
+				    var HTML="";
+
+				    for(var i=0;i<items.length; i++){
+				    	var imagelink = items[i].media.m;
+				        HTML += '<img src=' + imagelink + "/>";
+				      }
+				      $("#animals").append(HTML)
+
+				}
+
+				     });
+				  });
+
+				 })
+
+
+
+
+  
+
+
+
+
+
+	     </script>
+	   </head>
+    <body>
+    	<button>Lion</button>
+    	<button>Bear</button>
+    	<button>Fly</button>
+    	<button id = "clearButton"> </button>
+    	<ul id = "animals"> </ul>
+    	<ul id = "button"> </ul>
+  </body>
+</html>
